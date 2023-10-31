@@ -1,0 +1,70 @@
+import { defineStore } from "pinia"
+
+export const useTaskStore = defineStore('taskStore', {
+ state: () => ({
+    tasks: [],
+    loading: false,
+ }),
+ getters: {
+    favs() {
+        return this.tasks.filter(item => item.isFav)
+    },
+    favCount() {
+        return this.tasks.reduce((p, c)=>{
+            return c.isFav ? p + 1 : p 
+        }, 0)
+    },
+    // this is arrow funkction, where we can't use this. but we must have state as param
+    totalCount: (state) =>  {
+        return state.tasks.length
+    }
+ },
+ actions: {
+    async getTasks() {
+        this.loading = true
+        const res = await fetch('http://localhost:3000/tasks')
+        const data = await res.json()
+
+        this.tasks = data
+        this.loading = false
+    },
+    async addTask(task) {
+        this.tasks.push(task)
+
+        const res = await fetch('http://localhost:3000/tasks', {
+            method: 'POST',
+            body: JSON.stringify(task),
+            headers: {'Content-Type': 'aplication/json'}
+       }) 
+
+       if (res.error){
+       console.log(res.error)
+       }
+    },
+    async deleteTask(id){
+        this.tasks = this.tasks.filter((item) => {return item.id !== id})
+
+        const res = await fetch('http://localhost:3000/tasks/' + id, {
+            method: 'DELETE',
+       }) 
+
+       if (res.error){
+       console.log(res.error)
+       }
+    },
+    async toggleFav(id){
+        const task = this.tasks.find((item) => item.id == id)
+        task.isFav = !task.isFav
+
+        const res = await fetch('http://localhost:3000/tasks/' + id, {
+            method: 'PATCH',
+            body: JSON.stringify({isFav: true}),
+            headers: {'Content-Type': 'aplication/json'}
+       }) 
+
+       if (res.error){
+       console.log(res.error)
+       }
+    }
+ }
+})

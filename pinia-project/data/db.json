@@ -1,0 +1,19 @@
+{
+  "tasks": [
+    {
+      "id": 3,
+      "title": "feed cat Kiwi",
+      "isFav": true
+    },
+    {
+      "id": 4,
+      "title": "feed dog Happy",
+      "isFav": true
+    },
+    {
+      "id": 5,
+      "title": "make repo",
+      "isFav": false
+    }
+  ]
+}

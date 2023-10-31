@@ -1,0 +1,16 @@
+Pinia
+- the intuitive store for Vue.js
+- is state management solution for Vue.js
+- allows us to store global state in 'stores'
+- modular by design - more organized
+- typescript support
+
+Global store
+- every component has access to states in global store
+- states can be updated by use of actions (functions inside of store)
+
+How to Oraganize Stores
+- group related data into their own stores by logical concern
+- can be organized by features within our app
+- do not assume a store should be created around one API/library
+- can be shared state actions and getters via nested stores - there can be nested store (usage of another store)
